@@ -1,0 +1,55 @@
+[9:27 p. m., 18/3/2024] +57 318 8123496: Preguntas
+
+//  Preguntas
+
+INSERT INTO Preguntas (Pregunta_id, pregunta, dificultad, categoria_pregunta, repuesta_id, pista_id) 
+VALUES (1, '¿Cuál es la capital de Francia?', 'Fácil', 'Geografía', 1, 1);
+[9:29 p. m., 18/3/2024] +57 318 8123496: // LEER
+SELECT * FROM Preguntas WHERE Pregunta_id = 1;
+
+//ACTUALIZAR
+UPDATE Preguntas SET pregunta = '¿Cuál es la capital de España?' WHERE Pregunta_id = 1;
+
+
+//ELIMINAR
+DELETE FROM Preguntas WHERE Pregunta_id = 1;
+[9:29 p. m., 18/3/2024] +57 318 8123496: // Juegos
+[9:30 p. m., 18/3/2024] +57 318 8123496: // CREAR 
+INSERT INTO Juegos (Juego_id, configuracion_id, pregunta_id, repuesta_id, pista_id) 
+VALUES (1, 1, 1, 1, 1); 
+
+//LEER
+SELECT * FROM Juegos WHERE Juego_id = 1;
+
+//ACTUALIZAR
+UPDATE Juegos SET pregunta_id = 2 WHERE Juego_id = 1;
+
+//ELIMINAR
+DELETE FROM Juegos WHERE Juego_id = 1;
+[9:32 p. m., 18/3/2024] +57 318 8123496: //Configuraciones 
+// CREAR
+INSERT INTO Configuraciones (configuracion_id, tiempo, num_palabras, categoria_juego, usuario_id, puntaje) 
+VALUES (1, '10 minutos', '5', 'Geografía', 1, 0);
+
+//LEER
+SELECT * FROM Configuraciones WHERE configuracion_id = 1;
+
+//ACTUALIZAR
+UPDATE Configuraciones SET tiempo = '15 minutos' WHERE configuracion_id = 1;
+
+//ELIMINAR
+DELETE FROM Configuraciones WHERE configuracion_id = 1;
+[9:35 p. m., 18/3/2024] +57 318 8123496: // USUARIOS
+
+//CREAR
+INSERT INTO Usuario (Usuario_id, Nombre, puntaje) 
+VALUES (1, 'Usuario1', 0);
+
+//LEER 
+SELECT * FROM Usuario WHERE Usuario_id = 1;
+
+//ACTUALIZAR 
+UPDATE Usuario SET puntaje = 100 WHERE Usuario_id = 1;
+
+//ELIMAR
+DELETE FROM Usuario WHERE Usuario_id = 1;

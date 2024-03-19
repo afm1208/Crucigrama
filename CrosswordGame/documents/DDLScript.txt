@@ -1,0 +1,45 @@
+CREATE TABLE Preguntas (
+  Pregunta_id integer PRIMARY KEY,
+  pregunta varchar(255),
+  dificultad varchar(255),
+  categoria_pregunta varchar(255),
+  repuesta_id integer,
+  pista_id integer
+);
+
+CREATE TABLE Juegos (
+  Juego_id integer,
+  configuracion_id integer,
+  pregunta_id integer,
+  repuesta_id integer,
+  pista_id integer
+);
+
+CREATE TABLE Configuraciones (
+  configuracion_id integer PRIMARY KEY,
+  tiempo varchar(255),
+  num_palabras varchar(255),
+  categoria_juego varchar(255),
+  usuario_id integer,
+  puntaje integer
+);
+
+CREATE TABLE Usuario (
+  Usuario_id integer PRIMARY KEY,
+  Nombre varchar(255),
+  puntaje integer
+);
+
+CREATE TABLE Repuestas (
+  Repuesta_id integer PRIMARY KEY,
+  respuesta varchar(255),
+  num_casillas integer
+);
+
+ALTER TABLE Juegos ADD FOREIGN KEY (pregunta_id) REFERENCES Preguntas (Pregunta_id);
+
+ALTER TABLE Juegos ADD FOREIGN KEY (Juego_id) REFERENCES Configuraciones (configuracion_id);
+
+ALTER TABLE Configuraciones ADD FOREIGN KEY (usuario_id) REFERENCES Usuario (Usuario_id);
+
+ALTER TABLE Preguntas ADD FOREIGN KEY (repuesta_id) REFERENCES Repuestas (Repuesta_id);
