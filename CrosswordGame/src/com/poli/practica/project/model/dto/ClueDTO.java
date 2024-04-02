@@ -4,6 +4,8 @@ public class ClueDTO {
 	
 	private Integer id;
 	private String word;
+
+	
 	public Integer getId() {
 		return id;
 	}
