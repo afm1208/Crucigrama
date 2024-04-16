@@ -1,5 +1,3 @@
-[9:27 p. m., 18/3/2024] +57 318 8123496: Preguntas
-
 //  Preguntas
 
 INSERT INTO Preguntas (Pregunta_id, pregunta, dificultad, categoria_pregunta, repuesta_id, pista_id) 
