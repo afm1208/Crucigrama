@@ -4,6 +4,7 @@ import com.poli.practica.project.business.TableroService;
 import com.poli.practica.project.utils.constant.DifficultEnum;
 
 public class TableroServiceImpl implements TableroService {
+	
 
 	@Override
 	public String seleccionarDificultad(Integer dificultad) {
@@ -41,6 +42,14 @@ public class TableroServiceImpl implements TableroService {
 		}
 		return matriz;
 
+	}
+
+	@Override
+	public boolean validarPalabra(String palabra, Integer posicionInicial, Integer posicionFinal, DifficultEnum dificultad) {
+		return false;
+		
+		//validar mejor la logica
+ 
 	}
 
 

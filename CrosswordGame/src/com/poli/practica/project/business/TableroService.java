@@ -6,5 +6,5 @@ public interface TableroService {
 	
 	String seleccionarDificultad(Integer dificultad);
 	String[][] generarMatrizJuego(DifficultEnum dificultad);
-	
+	boolean validarPalabra(String palabra, Integer posicionInicial, Integer posicionFinal, DifficultEnum dificultad);
 }
