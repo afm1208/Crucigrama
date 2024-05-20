@@ -1,41 +1,49 @@
 package com.poli.practica.project.business.impl;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.mysql.cj.protocol.Resultset;
+import com.mysql.cj.util.StringUtils;
 import com.poli.practica.project.business.TableroService;
+import com.poli.practica.project.config.ConexionDB;
 import com.poli.practica.project.utils.constant.DifficultEnum;
 
 public class TableroServiceImpl implements TableroService {
-	
+
+	private ConexionDB conexion;
 
 	@Override
 	public String seleccionarDificultad(Integer dificultad) {
-		
+
 		String diff = null;
-		
+
 		switch (dificultad) {
 		case 1:
-			diff = DifficultEnum.FACIL.name();
+			diff = DifficultEnum.LOW.name();
 		case 2:
-			diff = DifficultEnum.MEDIO.name();
+			diff = DifficultEnum.MEDIUM.name();
 		case 3:
-			diff = DifficultEnum.DIFICIL.name();
+			diff = DifficultEnum.HARD.name();
 		default:
 			diff = "Escoger una dificultad valida.";
 		}
-		
+
 		return diff;
 	}
-	
+
 	@Override
 	public String[][] generarMatrizJuego(DifficultEnum dificultad) {
 
 		String[][] matriz = null;
 
 		switch (dificultad) {
-		case FACIL:
+		case LOW:
 			matriz = new String[10][10];
-		case MEDIO:
+		case MEDIUM:
 			matriz = new String[15][15];
-		case DIFICIL:
+		case HARD:
 			matriz = new String[20][20];
 		default:
 			break;
@@ -45,12 +53,88 @@ public class TableroServiceImpl implements TableroService {
 	}
 
 	@Override
-	public boolean validarPalabra(String palabra, Integer posicionInicial, Integer posicionFinal, DifficultEnum dificultad) {
+	public boolean validarPalabra(String palabra, Integer posicionInicial, Integer posicionFinal,
+			DifficultEnum dificultad) {
 		return false;
-		
-		//validar mejor la logica
- 
+
+		// validar mejor la logica
+
 	}
 
+	@Override
+	public void generarCrucigrama(String dificultad, String username) throws SQLException {
 
+		if (StringUtils.isEmptyOrWhitespaceOnly(username) || username == null) {
+			throw new IllegalArgumentException("El nombre de usuario es obligatorio...");
+		}
+
+		System.out.println(String.format("Generando crucigrama de dificultad %s... ", dificultad));
+
+		conexion = new ConexionDB();
+		PreparedStatement preparedStatement = ConexionDB.obtenerConexion()
+				.prepareStatement("INSERT INTO Usuario(Nombre, Puntaje) VALUES (?, ?)");
+		preparedStatement.setString(1, username);
+		preparedStatement.setString(2, "0");
+
+		preparedStatement.execute();
+
+		System.out.println(String.format("Insertando informacion de : %s", username));
+	}
+
+	@Override
+	public String getPreguntasHorizontales(String dificultad) {
+
+		try {
+			conexion = new ConexionDB();
+			PreparedStatement preparedStatement = ConexionDB.obtenerConexion()
+					.prepareStatement("SELECT preguntas_h FROM General_game WHERE dificultad = ?");
+			preparedStatement.setString(1, dificultad);
+
+			ResultSet result = preparedStatement.executeQuery();
+
+			System.out.println(String.format("Obteniendo preguntas horizontales de dificultad %s... ", dificultad));
+
+			if (result.next()) {
+				String preguntasHorizontales = result.getString("preguntas_h");
+
+				return preguntasHorizontales;
+			} else {
+
+				System.out.println("No se encontraron preguntas horizontales para la dificultad especificada.");
+				return null;
+			}
+		} catch (SQLException e) {
+			System.out.println(String.format("Error en  getPreguntasHorizontales  %s", e));
+		}
+		return null;
+	}
+
+	@Override
+	public String getPreguntasVerticales(String dificultad) {
+
+		try {
+			conexion = new ConexionDB();
+			PreparedStatement preparedStatement = ConexionDB.obtenerConexion()
+					.prepareStatement("SELECT preguntas_v FROM General_game  WHERE dificultad = ?");
+			preparedStatement.setString(1, dificultad);
+
+			ResultSet result = preparedStatement.executeQuery();
+			
+			System.out.println(String.format("Obteniendo preguntas verticales de dificultad %s... ", dificultad));
+
+
+			if (result.next()) {
+				String preguntasHorizontales = result.getString("preguntas_v");
+
+				return preguntasHorizontales;
+			} else {
+
+				System.out.println("No se encontraron preguntas horizontales para la dificultad especificada.");
+				return null;
+			}
+		} catch (SQLException e) {
+			System.out.println(String.format("Error en  getPreguntasHorizontales  %s", e));
+		}
+		return null;
+	}
 }
