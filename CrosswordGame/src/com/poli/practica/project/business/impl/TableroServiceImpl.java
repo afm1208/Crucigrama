@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.mysql.cj.protocol.Resultset;
 import com.mysql.cj.util.StringUtils;
 import com.poli.practica.project.business.TableroService;
 import com.poli.practica.project.config.ConexionDB;
@@ -40,7 +39,7 @@ public class TableroServiceImpl implements TableroService {
 
 		switch (dificultad) {
 		case LOW:
-			matriz = new String[10][10];
+			matriz = new String[13][13];
 		case MEDIUM:
 			matriz = new String[15][15];
 		case HARD:
@@ -53,15 +52,6 @@ public class TableroServiceImpl implements TableroService {
 	}
 
 	@Override
-	public boolean validarPalabra(String palabra, Integer posicionInicial, Integer posicionFinal,
-			DifficultEnum dificultad) {
-		return false;
-
-		// validar mejor la logica
-
-	}
-
-	@Override
 	public void generarCrucigrama(String dificultad, String username) throws SQLException {
 
 		if (StringUtils.isEmptyOrWhitespaceOnly(username) || username == null) {
@@ -70,7 +60,7 @@ public class TableroServiceImpl implements TableroService {
 
 		System.out.println(String.format("Generando crucigrama de dificultad %s... ", dificultad));
 
-		conexion = new ConexionDB();
+		this.conexion = new ConexionDB();
 		PreparedStatement preparedStatement = ConexionDB.obtenerConexion()
 				.prepareStatement("INSERT INTO Usuario(Nombre, Puntaje) VALUES (?, ?)");
 		preparedStatement.setString(1, username);
@@ -130,6 +120,35 @@ public class TableroServiceImpl implements TableroService {
 			} else {
 
 				System.out.println("No se encontraron preguntas horizontales para la dificultad especificada.");
+				return null;
+			}
+		} catch (SQLException e) {
+			System.out.println(String.format("Error en  getPreguntasHorizontales  %s", e));
+		}
+		return null;
+	}
+	
+	@Override
+	public String getRespuestas(String dificultad) {
+
+		try {
+			conexion = new ConexionDB();
+			PreparedStatement preparedStatement = ConexionDB.obtenerConexion()
+					.prepareStatement("SELECT respuestas FROM General_game  WHERE dificultad = ?");
+			preparedStatement.setString(1, dificultad);
+
+			ResultSet result = preparedStatement.executeQuery();
+			
+			System.out.println(String.format("Obteniendo respuestas de dificultad %s... ", dificultad));
+
+
+			if (result.next()) {
+				String preguntasHorizontales = result.getString("respuestas");
+
+				return preguntasHorizontales;
+			} else {
+
+				System.out.println("No se encontraron respuestas para la dificultad especificada.");
 				return null;
 			}
 		} catch (SQLException e) {

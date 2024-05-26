@@ -10,12 +10,11 @@ public interface TableroService {
 
 	String[][] generarMatrizJuego(DifficultEnum dificultad);
 
-	boolean validarPalabra(String palabra, Integer posicionInicial, Integer posicionFinal, DifficultEnum dificultad);
-
 	void generarCrucigrama(String dificultad, String username) throws SQLException;
 
-	public String getPreguntasHorizontales(String string);
+	String getPreguntasHorizontales(String string);
 
-	public String getPreguntasVerticales(String dificultad);
-
+	String getPreguntasVerticales(String dificultad);
+	
+	String getRespuestas(String dificultad);
 }
