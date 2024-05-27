@@ -32,8 +32,6 @@ public class TableroView extends Application {
 		this.primaryStage = primaryStage;
 		primaryStage.setTitle("CrosswordGame");
 
-		BorderPane borderPane = new BorderPane();
-
 		Label usernameLabel = new Label();
 		usernameLabel.setText("Inserte nombre de usuario.");
 		TextField username = new TextField();
@@ -44,7 +42,7 @@ public class TableroView extends Application {
 
 		facilButton.setOnAction(e -> {
 			try {
-				service.generarCrucigrama("Fácil", username.getText());
+				service.generarCrucigrama("Fácil", username.getText(), username);
 				primaryStage.close();
 				crucigramaFacil.start(primaryStage);
 			} catch (SQLException e1) {
@@ -56,14 +54,14 @@ public class TableroView extends Application {
 		});
 		medioButton.setOnAction(e -> {
 			try {
-				service.generarCrucigrama("Medio", username.getText());
+				service.generarCrucigrama("Medio", username.getText(), username);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 		});
 		dificilButton.setOnAction(e -> {
 			try {
-				service.generarCrucigrama("Difícil", username.getText());
+				service.generarCrucigrama("Difícil", username.getText(),username);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}

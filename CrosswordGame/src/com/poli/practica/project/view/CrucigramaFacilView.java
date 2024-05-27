@@ -96,7 +96,7 @@ public class CrucigramaFacilView extends Application {
 			contentBoxH.getChildren().add(palabraLabel);
 		}
 
-		// TODO: cuadrar bien la posicion de las preguntas veritcales
+		
 		for (String palabra : palabrasVerticales) {
 			Label palabraLabel = new Label(palabra.concat("."));
 			contentBoxV.getChildren().add(palabraLabel);

@@ -9,6 +9,11 @@ import com.poli.practica.project.business.TableroService;
 import com.poli.practica.project.config.ConexionDB;
 import com.poli.practica.project.utils.constant.DifficultEnum;
 
+import javafx.animation.ParallelTransition;
+import javafx.animation.TranslateTransition;
+import javafx.scene.control.TextField;
+import javafx.util.Duration;
+
 public class TableroServiceImpl implements TableroService {
 
 	private ConexionDB conexion;
@@ -52,9 +57,18 @@ public class TableroServiceImpl implements TableroService {
 	}
 
 	@Override
-	public void generarCrucigrama(String dificultad, String username) throws SQLException {
+	public void generarCrucigrama(String dificultad, String username, TextField text) throws SQLException {
 
 		if (StringUtils.isEmptyOrWhitespaceOnly(username) || username == null) {
+
+			TranslateTransition translateTransition = new TranslateTransition(Duration.millis(100), text);
+			translateTransition.setByX(10);
+			translateTransition.setAutoReverse(true);
+			translateTransition.setCycleCount(4);
+
+			ParallelTransition parallelTransition = new ParallelTransition(translateTransition);
+			parallelTransition.play();
+
 			throw new IllegalArgumentException("El nombre de usuario es obligatorio...");
 		}
 
@@ -109,9 +123,8 @@ public class TableroServiceImpl implements TableroService {
 			preparedStatement.setString(1, dificultad);
 
 			ResultSet result = preparedStatement.executeQuery();
-			
-			System.out.println(String.format("Obteniendo preguntas verticales de dificultad %s... ", dificultad));
 
+			System.out.println(String.format("Obteniendo preguntas verticales de dificultad %s... ", dificultad));
 
 			if (result.next()) {
 				String preguntasHorizontales = result.getString("preguntas_v");
@@ -127,7 +140,7 @@ public class TableroServiceImpl implements TableroService {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public String getRespuestas(String dificultad) {
 
@@ -138,9 +151,8 @@ public class TableroServiceImpl implements TableroService {
 			preparedStatement.setString(1, dificultad);
 
 			ResultSet result = preparedStatement.executeQuery();
-			
-			System.out.println(String.format("Obteniendo respuestas de dificultad %s... ", dificultad));
 
+			System.out.println(String.format("Obteniendo respuestas de dificultad %s... ", dificultad));
 
 			if (result.next()) {
 				String preguntasHorizontales = result.getString("respuestas");
